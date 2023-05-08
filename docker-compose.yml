@@ -1,0 +1,22 @@
+     
+#docker-compose.yml
+version: "3.8"
+services:
+  db:
+    image: postgres:latest  # image: pgdb-v2
+    environment:
+      - POSTGRES_DB=VKtest
+      - POSTGRES_USER="${DB_USER}"
+      - POSTGRES_PASSWORD="${DB_PASSWORD}"
+      
+
+  backend:
+    restart: always
+    build:
+      context: ./testPythonVK
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
